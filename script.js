@@ -1,18 +1,27 @@
-function updateClock() {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
-  }
-  
-  setInterval(updateClock, 1000);
-  
-  const themeToggle = document.getElementById('theme-toggle');
-  themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-    themeToggle.textContent = document.body.classList.contains('dark')
-      ? 'Switch to Light Mode'
-      : 'Switch to Dark Mode';
-  });
-  
+const taskInput = document.getElementById('task-input');
+const addTaskBtn = document.getElementById('add-task-btn');
+const taskList = document.getElementById('task-list');
+
+addTaskBtn.addEventListener('click', addTask);
+
+function addTask() {
+  const taskText = taskInput.value.trim();
+  if (taskText === '') return;
+
+  const listItem = document.createElement('li');
+
+  const taskSpan = document.createElement('span');
+  taskSpan.textContent = taskText;
+  taskSpan.addEventListener('click', () => listItem.classList.toggle('completed'));
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.textContent = '✖';
+  deleteBtn.className = 'delete-btn';
+  deleteBtn.addEventListener('click', () => listItem.remove());
+
+  listItem.appendChild(taskSpan);
+  listItem.appendChild(deleteBtn);
+  taskList.appendChild(listItem);
+
+  taskInput.value = '';
+}
